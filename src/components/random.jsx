@@ -1,34 +1,52 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import '/randomuser.css'
+import './randomuser.css';
 
+export default function Random() {
+  const [users, setUsers] = useState([]);
+  const [page, setPage] = useState(1); // Initialize page to 1
+  const [loading, setLoading] = useState(false);
 
-
-
-export default function Random(){
-const[users,setUsers]=useState([]);
-const[page,setpage]=useState('');
-const[loading,setloading]=useState(false);
-
-useEffect(() => {
+  useEffect(() => {
     const fetchUsers = async () => {
-      setloading(true);
+      setLoading(true);
       try {
         const response = await axios.get(`https://randomuser.me/api/?page=${page}&results=5`);
         setUsers((prevUsers) => [...prevUsers, ...response.data.results]);
       } catch (error) {
         console.error("Error fetching users", error);
       }
-      setloading(false);
+      setLoading(false);
     };
     fetchUsers();
   }, [page]);
-  
+
+  const loadMoreUsers = () => {
+    setPage((prevPage) => prevPage + 1); // Increment page correctly
+  };
+
   return (
-  <div>
-
-
-<button className="load-more-button" onClick={(setpage+1)}>click for more users</button>
-</div>
-);
+    <div className="random-user-container">
+      <h1>Random Users</h1>
+      <div className="users-list">
+        {users.map((user, index) => (
+          <div key={index} className="user-card">
+            <img
+              src={user.picture.medium}
+              alt={`${user.name.first} ${user.name.last}`}
+              className="user-image"
+            />
+            <h2>
+              {user.name.first} {user.name.last} {/* Corrected property access */}
+            </h2>
+            <p>{user.email}</p>
+          </div>
+        ))}
+      </div>
+      {loading && <p className="loading-text">Loading...</p>}
+      <button className="load-more-button" onClick={loadMoreUsers}>
+        Click for more users
+      </button>
+    </div>
+  );
 }
