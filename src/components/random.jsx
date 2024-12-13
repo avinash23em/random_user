@@ -1,5 +1,6 @@
 import { useState,useEffect } from "react";
 import axios from "axios";
+import '/randomuser.css'
 
 
 
@@ -27,7 +28,7 @@ useEffect(() => {
   <div>
 
 
-<button onClick={(setpage+1)}>click for more users</button>
+<button className="load-more-button" onClick={(setpage+1)}>click for more users</button>
 </div>
 );
 }
