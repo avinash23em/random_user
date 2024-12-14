@@ -43,7 +43,7 @@ export default function Random() {
           </div>
         ))}
       </div>
-      {loading && <p className="loading-text">Loading...</p>}
+      {loading && <p className="change">Loading...</p>}
       <button className="load-more-button" onClick={loadMoreUsers}>
         Click for more users
       </button>
